@@ -71,6 +71,23 @@ public class MainOptionPanel extends OptionPanel {
         add(cape);
         add(rock);
         add(particles);
+
+        JCheckBox image = new JCheckBox("Toggle Image");
+        image.setBackground(DefaultColor.DARKER.getColor());
+        image.setForeground(Color.gray);
+        image.setActionCommand("Image");
+        image.addActionListener(this);
+        image.setSelected(true);
+
+        JCheckBox helper = new JCheckBox("Toggle Helper");
+        helper.setBackground(DefaultColor.DARKER.getColor());
+        helper.setForeground(Color.gray);
+        helper.setActionCommand("Helper");
+        helper.addActionListener(this);
+        helper.setSelected(false);
+
+        add(image);
+        add(helper);
     }
 
     @Override
@@ -91,6 +108,12 @@ public class MainOptionPanel extends OptionPanel {
             } else if (action.endsWith("Particles")) {
                 mainDrawPanel.setCurrentView(MainDrawPanel.View.PARTICLES);
             }
+        }
+        if (action.startsWith("Helper")) {
+            mainDrawPanel.toggleHelper();
+        }
+        if (action.startsWith("Image")) {
+            mainDrawPanel.toggleImage();
         }
     }
 }

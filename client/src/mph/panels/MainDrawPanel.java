@@ -2,6 +2,10 @@ package mph.panels;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import mph.entities.DuckImage;
 import mph.util.DefaultColor;
 
@@ -13,19 +17,26 @@ public class MainDrawPanel extends DrawPanel {
     private DuckImage workingDuckImage;
     private View currentView;
     private AffineTransform viewTransform = new AffineTransform();
+    private boolean imageActive = true, helperActive = false;
+    private BufferedImage helperImage;
 
     public MainDrawPanel(DuckImage workingDuckImage) {
         this.workingDuckImage = workingDuckImage;
         setPreferredSize(new Dimension(800, 800));
         setCurrentView(View.ALL);
+        try {
+            helperImage = ImageIO.read(new File("client/res/Helper.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void draw(Graphics2D g2) {
         g2.setColor(DefaultColor.DARK.getColor());
         g2.fillRect(0, 0, getWidth(), getHeight());
-
-        g2.drawImage(workingDuckImage.getImage(), viewTransform, null);
+        if (helperActive) g2.drawImage(helperImage, viewTransform, null);
+        if (imageActive) g2.drawImage(workingDuckImage.getImage(), viewTransform, null);
     }
 
     public void setCurrentView(View currentView) {
@@ -58,4 +69,15 @@ public class MainDrawPanel extends DrawPanel {
         }
         repaint();
     }
+
+    public void toggleImage() {
+        imageActive = !imageActive;
+        repaint();
+    }
+
+    public void toggleHelper() {
+        helperActive = !helperActive;
+        repaint();
+    }
+
 }
