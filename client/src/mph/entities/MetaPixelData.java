@@ -43,6 +43,10 @@ public enum MetaPixelData {
         return type;
     }
 
+    public String toString() {
+        return getDescription();
+    }
+
     private static HashMap<Integer, MetaPixelData> ids = new HashMap<Integer, MetaPixelData>();
     public static MetaPixelData findById(int id) {
         if (ids.isEmpty()) {
@@ -56,4 +60,13 @@ public enum MetaPixelData {
             return UNDEFINED;
         }
     }
+    public static HashMap<Integer, MetaPixelData> getAll() {
+        if (ids.isEmpty()) {
+            for (MetaPixelData data:MetaPixelData.values()) {
+                ids.put(data.id, data);
+            }
+        }
+        return ids;
+    }
+
 }

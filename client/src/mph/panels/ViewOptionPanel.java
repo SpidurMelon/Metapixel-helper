@@ -86,7 +86,15 @@ public class ViewOptionPanel extends OptionPanel {
         helper.addActionListener(this);
         helper.setSelected(false);
 
+        JCheckBox tongue = new JCheckBox("Toggle Tongue");
+        tongue.setBackground(DefaultColor.DARKER.getColor());
+        tongue.setForeground(Color.gray);
+        tongue.setActionCommand("Tongue");
+        tongue.addActionListener(this);
+        tongue.setSelected(false);
+
         add(image);
+        add(tongue);
         add(helper);
     }
 
@@ -114,6 +122,9 @@ public class ViewOptionPanel extends OptionPanel {
         }
         if (action.startsWith("Image")) {
             mainDrawPanel.toggleImage();
+        }
+        if (action.startsWith("Tongue")) {
+            mainDrawPanel.toggleTongue();
         }
     }
 }

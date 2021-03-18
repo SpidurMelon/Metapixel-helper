@@ -17,8 +17,8 @@ public class MainDrawPanel extends DrawPanel {
     private DuckImage workingDuckImage;
     private View currentView;
     private AffineTransform viewTransform = new AffineTransform();
-    private boolean imageActive = true, helperActive = false;
-    private BufferedImage helperImage;
+    private boolean imageActive = true, helperActive = false, tongueActive = false;
+    private BufferedImage helperImage, tongue;
 
     public MainDrawPanel(DuckImage workingDuckImage) {
         this.workingDuckImage = workingDuckImage;
@@ -26,6 +26,7 @@ public class MainDrawPanel extends DrawPanel {
         setCurrentView(View.ALL);
         try {
             helperImage = ImageIO.read(new File("client/res/Helper.png"));
+            tongue = ImageIO.read(new File("client/res/Tongue.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +37,7 @@ public class MainDrawPanel extends DrawPanel {
         g2.setColor(DefaultColor.DARK.getColor());
         g2.fillRect(0, 0, getWidth(), getHeight());
         if (helperActive) g2.drawImage(helperImage, viewTransform, null);
+        if (tongueActive) g2.drawImage(tongue, viewTransform, null);
         if (imageActive) g2.drawImage(workingDuckImage.getImage(), viewTransform, null);
     }
 
@@ -77,6 +79,11 @@ public class MainDrawPanel extends DrawPanel {
 
     public void toggleHelper() {
         helperActive = !helperActive;
+        repaint();
+    }
+
+    public void toggleTongue() {
+        tongueActive = !tongueActive;
         repaint();
     }
 

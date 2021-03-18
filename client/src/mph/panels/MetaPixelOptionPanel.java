@@ -2,7 +2,13 @@ package mph.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -19,14 +25,15 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
     private MainDrawPanel mainDrawPanel;
     private DuckImage workingDuckImage;
     private JTable metaPixelTable;
-    private MetaPixelManager mpm = new MetaPixelManager();;
+    private JComboBox<MetaPixelData> mpdList;
+    private MetaPixelManager mpm = new MetaPixelManager();
 
 
     public MetaPixelOptionPanel(MainDrawPanel mainDrawPanel, DuckImage workingDuckImage) {
         this.mainDrawPanel = mainDrawPanel;
         this.workingDuckImage = workingDuckImage;
-
-        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(400, getHeight()));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         String[] columnNames = {"Description",
                 "ID",
@@ -44,10 +51,23 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
         metaPixelTable.setForeground(Color.GRAY);
         metaPixelTable.getModel().addTableModelListener(this);
         metaPixelTable.setFillsViewportHeight(true);
-
         JScrollPane scrollPane = new JScrollPane(metaPixelTable);
-
+        scrollPane.setPreferredSize(new Dimension(getWidth(), 700));
         add(scrollPane);
+
+
+        mpdList = new JComboBox<MetaPixelData>();
+        for (MetaPixelData mpd:MetaPixelData.getAll().values()) {
+            mpdList.addItem(mpd);
+        }
+        mpdList.setPreferredSize(new Dimension(getWidth(),30));
+        add(mpdList);
+
+
+        JButton addSelectedMetaPixel = new JButton("Add MetaPixel");
+        addSelectedMetaPixel.setActionCommand("Add");
+        addSelectedMetaPixel.addActionListener(this);
+        add(addSelectedMetaPixel);
 
         MetaPixel mp = new MetaPixel(1);
         setRow(0, mp);
@@ -60,14 +80,26 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
         metaPixelTable.getModel().setValueAt(metaPixel.getParam2(), row, 3);
     }
 
+
     public void removeRow(int row) {
         mpm.removeMetaPixel(row);
         metaPixelTable.remove(row);
     }
 
+    public int getFirstEmptyRow() {
+        for (int y = 0; y < metaPixelTable.getRowCount(); y++) {
+            if (metaPixelTable.getModel().getValueAt(y, 0) == null) {
+                return y;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getActionCommand().equals("Add")) {
+            setRow(getFirstEmptyRow(), new MetaPixel(((MetaPixelData)mpdList.getSelectedItem()).getId()));
+        }
     }
 
     @Override
