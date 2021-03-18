@@ -1,5 +1,6 @@
 package mph.entities;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,12 @@ public class DuckImage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setPixel(int x, int y, Color color) {
+        Graphics imageGraphics = image.getGraphics();
+        imageGraphics.setColor(color);
+        imageGraphics.drawRect(x, y, 1, 1);
     }
 
     public BufferedImage getImage() {

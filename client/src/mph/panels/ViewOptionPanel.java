@@ -5,9 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import mph.util.DefaultColor;
 
-public class MainOptionPanel extends OptionPanel {
+public class ViewOptionPanel extends OptionPanel {
     private MainDrawPanel mainDrawPanel;
-    public MainOptionPanel(MainDrawPanel mainDrawPanel) {
+    public ViewOptionPanel(MainDrawPanel mainDrawPanel) {
         this.mainDrawPanel = mainDrawPanel;
 
         setPreferredSize(new Dimension(200, 800));
