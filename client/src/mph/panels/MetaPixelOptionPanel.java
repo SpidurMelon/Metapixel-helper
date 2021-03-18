@@ -1,61 +1,68 @@
 package mph.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+
 import mph.entities.DuckImage;
 import mph.entities.MetaPixel;
 import mph.entities.MetaPixelData;
+import mph.entities.MetaPixelManager;
 import mph.util.DefaultColor;
 
 public class MetaPixelOptionPanel extends OptionPanel implements TableModelListener {
     private MainDrawPanel mainDrawPanel;
     private DuckImage workingDuckImage;
     private JTable metaPixelTable;
-    private int rowCount = 0;
-    HashMap<Integer, MetaPixel> metaPixelMap = new HashMap<Integer, MetaPixel>();
+    private MetaPixelManager mpm = new MetaPixelManager();;
+
 
     public MetaPixelOptionPanel(MainDrawPanel mainDrawPanel, DuckImage workingDuckImage) {
         this.mainDrawPanel = mainDrawPanel;
         this.workingDuckImage = workingDuckImage;
 
-
+        setLayout(new BorderLayout());
 
         String[] columnNames = {"Description",
+                "ID",
                 "Parameter 1",
                 "Parameter 2"};
 
-        metaPixelTable = new JTable(new Object[DuckImage.HEIGHT][3], columnNames);
+        metaPixelTable = new JTable();
+        metaPixelTable.setModel(new DefaultTableModel(new String[DuckImage.HEIGHT][4], columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column > 0;
+            }
+        });
         metaPixelTable.setBackground(DefaultColor.DARK.getColor());
         metaPixelTable.setForeground(Color.GRAY);
         metaPixelTable.getModel().addTableModelListener(this);
+        metaPixelTable.setFillsViewportHeight(true);
 
         JScrollPane scrollPane = new JScrollPane(metaPixelTable);
-        metaPixelTable.setFillsViewportHeight(true);
 
         add(scrollPane);
 
         MetaPixel mp = new MetaPixel(1);
-        addRow(mp);
+        setRow(0, mp);
     }
 
-    public void addRow(MetaPixel metaPixel) {
-        metaPixelMap.put(rowCount, metaPixel);
-        metaPixelTable.getModel().setValueAt(metaPixel.getMetaPixelData().getId(), rowCount, 0);
-        metaPixelTable.getModel().setValueAt(metaPixel.getParam1(), rowCount, 1);
-        metaPixelTable.getModel().setValueAt(metaPixel.getParam2(), rowCount, 2);
-        rowCount++;
+    public void setRow(int row, MetaPixel metaPixel) {
+        metaPixelTable.getModel().setValueAt(metaPixel.getMetaPixelData().getDescription(), row, 0);
+        metaPixelTable.getModel().setValueAt(String.valueOf(metaPixel.getMetaPixelData().getId()), row, 1);
+        metaPixelTable.getModel().setValueAt(metaPixel.getParam1(), row, 2);
+        metaPixelTable.getModel().setValueAt(metaPixel.getParam2(), row, 3);
     }
 
     public void removeRow(int row) {
-        metaPixelMap.remove(row);
+        mpm.removeMetaPixel(row);
         metaPixelTable.remove(row);
-        rowCount--;
     }
 
     @Override
@@ -65,15 +72,25 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        for (int i = 0; i < rowCount; i++) {
-            MetaPixel metaPixel = metaPixelMap.get(i);
-            metaPixel.setParam1((String)metaPixelTable.getModel().getValueAt(i, 1));
-            metaPixel.setParam2((String)metaPixelTable.getModel().getValueAt(i, 2));
-            if (metaPixel.getParam1() != null && metaPixel.getParam2() != null) {
-                Color metaPixelColor = metaPixel.toColor();
-                workingDuckImage.setPixel(DuckImage.WIDTH - 1, i, metaPixelColor);
-                System.out.println("x: " + (DuckImage.WIDTH - 1) + ", y:" + i + ", color:" + metaPixelColor);
+        for (int i = 0; i < metaPixelTable.getRowCount(); i++) {
+            String description = (String)metaPixelTable.getModel().getValueAt(i, 0);
+            String id = (String)metaPixelTable.getModel().getValueAt(i, 1);
+            String param1 = (String)metaPixelTable.getModel().getValueAt(i, 2);
+            String param2 = (String)metaPixelTable.getModel().getValueAt(i, 3);
+            if (id != null) {
+                if (description == null || !description.equals(MetaPixelData.findById(Integer.parseInt(id)).getDescription())) {
+                    metaPixelTable.setValueAt(MetaPixelData.findById(Integer.parseInt(id)).getDescription(), i, 0);
+                }
+                if (param1 != null && param2 != null) {
+                    mpm.setMetaPixel(i, Integer.parseInt(id), param1, param2);
+                }
+            } else {
+                if (description != null) {
+                    metaPixelTable.setValueAt(null, i, 0);
+                }
             }
         }
+        mpm.apply(workingDuckImage);
+        mainDrawPanel.repaint();
     }
 }

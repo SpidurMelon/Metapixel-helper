@@ -20,7 +20,7 @@ public class DuckImage {
     public void setPixel(int x, int y, Color color) {
         Graphics imageGraphics = image.getGraphics();
         imageGraphics.setColor(color);
-        imageGraphics.drawRect(x, y, 1, 1);
+        imageGraphics.drawRect(x, y, 0, 0);
     }
 
     public BufferedImage getImage() {

@@ -3,6 +3,7 @@ package mph.entities;
 import java.util.HashMap;
 
 public enum MetaPixelData {
+    UNDEFINED(0,"Undefined", "Undefined", "Undefined", MetaPixelType.SPECIAL, -1){},
     HAT_OFFSET(1,"Hat offset", "X offset", "Y offset", MetaPixelType.VEC, 16){};
 
     enum MetaPixelType {
@@ -49,6 +50,10 @@ public enum MetaPixelData {
                 ids.put(data.id, data);
             }
         }
-        return ids.get(id);
+        if (ids.containsKey(id)) {
+            return ids.get(id);
+        } else {
+            return UNDEFINED;
+        }
     }
 }
