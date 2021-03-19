@@ -1,5 +1,7 @@
 package mph.entities;
 
+import mph.util.DefaultColor;
+
 import java.awt.*;
 
 public class MetaPixel {
@@ -43,21 +45,33 @@ public class MetaPixel {
                 b = Integer.parseInt(this.param2)+128;
                 break;
             case NVEC:
-                g = (int)((Integer.parseInt(this.param1)/(double)metaPixelData.getMax())*255);
-                b = (int)((Integer.parseInt(this.param2)/(double)metaPixelData.getMax())*255);
+                g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*255);
+                b = (int)((Float.parseFloat(this.param2)/(double)metaPixelData.getMax())*255);
                 break;
             case NNVEC:
-                g = (int)((Integer.parseInt(this.param1)/(double)metaPixelData.getMax())*127)+128;
-                b = (int)((Integer.parseInt(this.param2)/(double)metaPixelData.getMax())*127)+128;
+                if ((Float.parseFloat(this.param1) <= 0)){
+                    g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*128)+128;
+                } else {
+                    g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*127)+128;
+                }
+                if ((Float.parseFloat(this.param2) <= 0)){
+                    b = (int)((Float.parseFloat(this.param2)/(double)metaPixelData.getMax())*128)+128;
+                } else {
+                    b = (int)((Float.parseFloat(this.param2)/(double)metaPixelData.getMax())*127)+128;
+                }
                 break;
             case FLOAT:
-                g = (int)((Integer.parseInt(this.param1)/(double)metaPixelData.getMax())*255);
+                g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*255);
                 break;
             case NFLOAT:
-                g = (int)((Integer.parseInt(this.param1)/(double)metaPixelData.getMax())*127)+128;
+                if ((Float.parseFloat(this.param1) <= 0)){
+                    g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*128)+128;
+                } else {
+                    g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*127)+128;
+                }
                 break;
             case NINT:
-                g = (Integer.parseInt(this.param1))+128;
+                g = Integer.parseInt(this.param1)+128;
                 break;
             case BOOL:
                 break;
@@ -65,31 +79,45 @@ public class MetaPixel {
                 g = Integer.parseInt(this.param1);
                 b = Integer.parseInt(this.param1);
                 break;
+            case UNDEFINED:
+                return DefaultColor.TRANSPARENT.getColor();
         }
         return new Color(r, g, b);
     }
 
     public static MetaPixel fromColor(Color color) {
         MetaPixel mp = new MetaPixel(color.getRed());
-        switch (mp.getMetaPixelData().getMetaPixelType()) {
+        switch(mp.getMetaPixelData().getMetaPixelType()) {
             case VEC:
                 mp.setParam1(String.valueOf(color.getGreen()-128));
                 mp.setParam2(String.valueOf(color.getBlue()-128));
                 break;
             case NVEC:
-                mp.setParam1(String.valueOf((int)(color.getGreen()/255d)*mp.getMetaPixelData().getMax()));
-                mp.setParam2(String.valueOf((int)(color.getBlue()/255d)*mp.getMetaPixelData().getMax()));
+                mp.setParam1(String.valueOf((color.getGreen()/255d)*mp.getMetaPixelData().getMax()));
+                mp.setParam2(String.valueOf((color.getBlue()/255d)*mp.getMetaPixelData().getMax()));
                 break;
             case NNVEC:
-                mp.setParam1(String.valueOf((int)((color.getGreen()-128)/128d)*mp.getMetaPixelData().getMax()));
-                mp.setParam2(String.valueOf((int)((color.getBlue()-128)/128d)*mp.getMetaPixelData().getMax()));
+                if (color.getGreen() <= 0) {
+                    mp.setParam1(String.valueOf(((color.getGreen()-128)*mp.getMetaPixelData().getMax())/128d));
+                } else {
+                    mp.setParam1(String.valueOf(((color.getGreen()-128)*mp.getMetaPixelData().getMax())/127d));
+                }
+                if (color.getBlue() <= 0) {
+                    mp.setParam2(String.valueOf(((color.getBlue()-128)*mp.getMetaPixelData().getMax())/128d));
+                } else {
+                    mp.setParam2(String.valueOf(((color.getBlue()-128)*mp.getMetaPixelData().getMax())/127d));
+                }
                 break;
             case FLOAT:
-                mp.setParam1(String.valueOf((int)(color.getGreen()/255d)*mp.getMetaPixelData().getMax()));
+                mp.setParam1(String.valueOf((color.getGreen()/255d)*mp.getMetaPixelData().getMax()));
                 mp.setParam2(String.valueOf(0));
                 break;
             case NFLOAT:
-                mp.setParam1(String.valueOf((int)((color.getGreen()-128)/128d)*mp.getMetaPixelData().getMax()));
+                if (color.getGreen() <= 0) {
+                    mp.setParam1(String.valueOf(((color.getGreen()-128)*mp.getMetaPixelData().getMax())/128d));
+                } else {
+                    mp.setParam1(String.valueOf(((color.getGreen()-128)*mp.getMetaPixelData().getMax())/127d));
+                }
                 mp.setParam2(String.valueOf(0));
                 break;
             case NINT:

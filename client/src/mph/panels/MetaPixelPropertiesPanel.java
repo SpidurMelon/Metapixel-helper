@@ -4,12 +4,16 @@ import mph.entities.MetaPixel;
 import mph.entities.MetaPixelData;
 import mph.util.DefaultColor;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.MutableComboBoxModel;
+import javax.swing.event.ListDataListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -24,7 +28,7 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
 
     public MetaPixelPropertiesPanel(MetaPixelOptionPanel metaPixelOptionPanel) {
         this.mpop = metaPixelOptionPanel;
-        setPreferredSize(new Dimension(400, getHeight()));
+        setPreferredSize(new Dimension(500, getHeight()));
         setBackground(DefaultColor.DARKER.getColor());
         setLayout(new GridLayout(5, 1));
 
@@ -35,16 +39,15 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
         typeLabel.setBackground(DefaultColor.DARK.getColor());
         typeLabel.setForeground(DefaultColor.GREYPLE.getColor());
         typePanel.add(BorderLayout.WEST, typeLabel);
-        mpdList = new JComboBox<MetaPixelData>();
+        mpdList = new JComboBox<MetaPixelData>(); //TODO SORT THIS
         for (MetaPixelData mpd:MetaPixelData.getAll().values()) {
-            mpdList.addItem(mpd);
+            mpdList.insertItemAt(mpd, Math.min(mpdList.getItemCount(), mpd.getId()));
         }
         mpdList.setBackground(DefaultColor.BLURPLE.getColor());
         mpdList.setForeground(DefaultColor.BLACK.getColor());
         mpdList.setActionCommand("Select");
         mpdList.addActionListener(this);
         typePanel.add(mpdList);
-
         add(typePanel);
         
         JPanel params = new JPanel();
@@ -63,7 +66,6 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
         params.add(param2Label);
         param2Field = new JTextField();
         params.add(param2Field);
-
         add(params);
 
         JPanel options = new JPanel();
@@ -80,8 +82,14 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
         removeSelectedMetaPixel.setActionCommand("Remove");
         removeSelectedMetaPixel.addActionListener(this);
         options.add(removeSelectedMetaPixel);
-
         add(options);
+
+        JButton write = new JButton("Write to file");
+        write.setBackground(DefaultColor.DARK.getColor());
+        write.setForeground(DefaultColor.GREYPLE.getColor());
+        write.setActionCommand("Write");
+        write.addActionListener(this);
+        add(write);
     }
 
     public void setSelectedMetaPixel(MetaPixel metaPixel) {
@@ -100,7 +108,7 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
         } else if (paramNumber == 2 && data.getParam2Description().startsWith("<html>")) {
             return data.getParam2Description();
         }
-        if (data.getMetaPixelType() == MetaPixelData.MetaPixelType.BOOL) {
+        if (data.getMetaPixelType() == MetaPixelData.MetaPixelType.BOOL || data.getMetaPixelType() == MetaPixelData.MetaPixelType.UNDEFINED) {
             return "Not required";
         } else if (data.getMetaPixelType() == MetaPixelData.MetaPixelType.SPECIAL) {
             if (paramNumber == 1) {
@@ -139,6 +147,8 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
             currentSelectedMP = new MetaPixel(((MetaPixelData)mpdList.getSelectedItem()).getId());
             param1Label.setText(getParamString(1));
             param2Label.setText(getParamString(2));
+        } else if (e.getActionCommand().equals("Write")) {
+            mpop.write();
         }
     }
 }

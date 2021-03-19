@@ -26,7 +26,7 @@ public enum MetaPixelData {
     PARTICLE_LIFESPAN(35,"Particle lifespan", "Lifespan in seconds", "", MetaPixelType.FLOAT, 2),
     PARTICLE_VELOCITY(36,"Particle initial velocity", "X start velocity", "Y start velocity", MetaPixelType.NNVEC, 2),
     PARTICLE_GRAVITY(37,"Particle gravity", "Gravity in x direction", "Gravity in y direction", MetaPixelType.NNVEC, 2),
-    PARTICLE_FRICTION(38,"<html>Particle friction <br> (gets multiplied by param value every frame)</html>", "Friction in x direction", "Friction in y direction", MetaPixelType.NVEC, 1),
+    PARTICLE_FRICTION(38,"Particle friction (multiplies value every frame)", "Friction in x direction", "Friction in y direction", MetaPixelType.NVEC, 1),
     PARTICLE_ALPHA(39,"Alpha transition of particles", "Start alpha", "End alpha", MetaPixelType.NVEC, 1),
     PARTICLE_SCALE(40,"Scale transition of particles", "Start scale", "End scale", MetaPixelType.NVEC, 2),
     PARTICLE_ROTATION(41,"Rotation transition of particles", "Start rotation", "End rotation", MetaPixelType.NVEC, 36),
@@ -41,9 +41,9 @@ public enum MetaPixelData {
     WET_LIPS(70,"Makes your beak closing sound like wet lips", "", "", MetaPixelType.BOOL, 0),
     MECHANICAL_LIPS(71,"Makes your beak closing sound like mechanical lips", "", "", MetaPixelType.BOOL, 0),
 
-    X_RANDOMIZER(100, "Randomizes the first parameter of the previous MetaPixel by multiplication", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1),
-    Y_RANDOMIZER(101, "Randomizes the second parameter of the previous MetaPixel by multiplication", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1),
-    BOTH_RANDOMIZER(102, "Randomizes both parameters of the previous MetaPixel by (the same) multiplication", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1)
+    X_RANDOMIZER(100, "Multiplies the first parameter of above MetaPixel by a random float", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1),
+    Y_RANDOMIZER(101, "Multiplies the second parameter of above MetaPixel by a random float", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1),
+    BOTH_RANDOMIZER(102, "Multiplies both parameters of above MetaPixel by the same random float", "Max multiplication", "Min multiplication", MetaPixelType.NNVEC, 1)
     ;
 
     public enum MetaPixelType {
@@ -71,7 +71,7 @@ public enum MetaPixelData {
         return max;
     }
     public String getDescription() {
-        return id + " " + description;
+        return description;
     }
     public String getParam1Description() {
         return param1Description;
@@ -84,7 +84,7 @@ public enum MetaPixelData {
     }
 
     public String toString() {
-        return getDescription();
+        return id + " " + getDescription();
     }
     private static ArrayList<MetaPixelType> negatives = new ArrayList<MetaPixelType>() {{
         add(MetaPixelType.VEC);

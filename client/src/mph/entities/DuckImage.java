@@ -10,10 +10,13 @@ import javax.imageio.ImageIO;
 
 public class DuckImage {
     public static final int WIDTH = 97, HEIGHT = 56, HATSIZE = 32, ROCKSIZE = 24;
+    private File file;
     private BufferedImage image;
+
     public DuckImage(String path) {
+        file = new File(path);
         try {
-            image = ImageIO.read(new File(path));
+            image = ImageIO.read(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,7 +31,19 @@ public class DuckImage {
         }
     }
 
+    public Color getPixel(int x, int y) {
+        return new Color(image.getRGB(x, y));
+    }
+
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void write() {
+        try {
+            ImageIO.write(image, "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

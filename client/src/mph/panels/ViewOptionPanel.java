@@ -10,7 +10,7 @@ public class ViewOptionPanel extends OptionPanel {
     public ViewOptionPanel(MainDrawPanel mainDrawPanel) {
         this.mainDrawPanel = mainDrawPanel;
 
-        setPreferredSize(new Dimension(200, 800));
+        setPreferredSize(new Dimension(200, 560));
         setBackground(DefaultColor.DARKER.getColor());
 
         setLayout(new GridLayout(20, 1));

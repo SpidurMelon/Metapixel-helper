@@ -57,16 +57,15 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
         metaPixelTable.getModel().addTableModelListener(this);
         metaPixelTable.setFillsViewportHeight(true);
         metaPixelTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        metaPixelTable.getSelectionModel().setSelectionInterval(0, 0);
         metaPixelTable.getSelectionModel().addListSelectionListener(this);
         JScrollPane scrollPane = new JScrollPane(metaPixelTable);
         scrollPane.setBackground(DefaultColor.DARK.getColor());
         scrollPane.setForeground(DefaultColor.GREYPLE.getColor());
-        scrollPane.setPreferredSize(new Dimension(getWidth(), 700));
+        scrollPane.setPreferredSize(new Dimension(getWidth(), getHeight()));
         add(scrollPane);
-
-        MetaPixel mp = new MetaPixel(0);
         for (int i = 0; i < metaPixelTable.getRowCount(); i++) {
-            setRow(i, mp);
+            setRow(i, MetaPixel.fromColor(workingDuckImage.getPixel(DuckImage.WIDTH-1, i)));
         }
     }
 
@@ -115,6 +114,10 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
 
     public int getCurrentlySelectedRow() {
         return metaPixelTable.getSelectedRow();
+    }
+
+    public void write() {
+        workingDuckImage.write();
     }
 
     @Override
