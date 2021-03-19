@@ -26,7 +26,7 @@ public class DuckImage {
         Graphics2D imageGraphics = (Graphics2D)image.getGraphics();
         imageGraphics.setColor(color);
         imageGraphics.drawRect(x, y, 0, 0);
-        if (color.equals(DefaultColor.TRANSPARENT.getColor()) && y==0) {
+        if (color.equals(DefaultColor.TRANSPARENT.getColor())) {
             AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
             imageGraphics.setComposite(composite);
             imageGraphics.drawRect(x, y, 0, 0);

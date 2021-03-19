@@ -31,7 +31,6 @@ public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionLi
     private JTable metaPixelTable;
     private MetaPixelManager mpm = new MetaPixelManager();
 
-
     public MetaPixelOptionPanel(MainDrawPanel mainDrawPanel, DuckImage workingDuckImage) {
         this.mainDrawPanel = mainDrawPanel;
         this.workingDuckImage = workingDuckImage;
