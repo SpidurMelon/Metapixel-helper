@@ -23,11 +23,13 @@ public class DuckImage {
     }
 
     public void setPixel(int x, int y, Color color) {
-        Graphics imageGraphics = image.getGraphics();
+        Graphics2D imageGraphics = (Graphics2D)image.getGraphics();
         imageGraphics.setColor(color);
         imageGraphics.drawRect(x, y, 0, 0);
-        if (color.getRGB() != 0x000000) {
-            System.out.println(color);
+        if (color.equals(DefaultColor.TRANSPARENT.getColor()) && y==0) {
+            AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
+            imageGraphics.setComposite(composite);
+            imageGraphics.drawRect(x, y, 0, 0);
         }
     }
 

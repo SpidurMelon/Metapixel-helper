@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         DuckImage workingDuckImage = new DuckImage(args[0]);
         MainFrame frame = new MainFrame(new MainPanel(workingDuckImage));
+        frame.setTitle("MetaPixel helper");
         frame.setVisible(true);
     }
 }

@@ -142,6 +142,7 @@ public class MetaPixelPropertiesPanel extends OptionPanel {
         else if (e.getActionCommand().equals("Remove")) {
             mpop.setRow(mpop.getCurrentlySelectedRow(), new MetaPixel(0));
             setSelectedMetaPixel(new MetaPixel(0));
+            mpop.updateMPM(mpop.getCurrentlySelectedRow());
         }
         else if (e.getActionCommand().equals("Select")) {
             currentSelectedMP = new MetaPixel(((MetaPixelData)mpdList.getSelectedItem()).getId());

@@ -24,7 +24,7 @@ import mph.entities.MetaPixelData;
 import mph.entities.MetaPixelManager;
 import mph.util.DefaultColor;
 
-public class MetaPixelOptionPanel extends OptionPanel implements TableModelListener, ListSelectionListener {
+public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionListener {
     private MetaPixelPropertiesPanel metaPixelPropertiesPanel;
     private MainDrawPanel mainDrawPanel;
     private DuckImage workingDuckImage;
@@ -54,7 +54,6 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
         metaPixelTable.setBackground(DefaultColor.DARK.getColor());
         metaPixelTable.setForeground(DefaultColor.GREYPLE.getColor());
         metaPixelTable.setGridColor(DefaultColor.BLACK.getColor());
-        metaPixelTable.getModel().addTableModelListener(this);
         metaPixelTable.setFillsViewportHeight(true);
         metaPixelTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         metaPixelTable.getSelectionModel().setSelectionInterval(0, 0);
@@ -90,13 +89,7 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
         metaPixelTable.getModel().setValueAt(String.valueOf(metaPixel.getMetaPixelData().getId()), row, 1);
         metaPixelTable.getModel().setValueAt(metaPixel.getParam1(), row, 2);
         metaPixelTable.getModel().setValueAt(metaPixel.getParam2(), row, 3);
-        mpm.setMetaPixel(row, metaPixel);
-    }
-
-
-    public void removeRow(int row) {
-        mpm.removeMetaPixel(row);
-        metaPixelTable.remove(row);
+        updateMPM(row);
     }
 
     public int getFirstEmptyRow() {
@@ -125,27 +118,26 @@ public class MetaPixelOptionPanel extends OptionPanel implements TableModelListe
 
     }
 
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        for (int i = 0; i < metaPixelTable.getRowCount(); i++) {
-            MetaPixel currentMP = parseRow(i);
-            String currentDescription = (String)metaPixelTable.getModel().getValueAt(i,0);
-            if (currentMP != null) {
-                MetaPixelData currentMPData = currentMP.getMetaPixelData();
-                if (currentDescription == null || !currentDescription.equals(currentMPData.getDescription())) {
-                    metaPixelTable.setValueAt(currentMPData.getDescription(), i, 0);
-                }
-                if (currentMP.getParam1() != null && currentMP.getParam2() != null) {
-                    mpm.setMetaPixel(i, currentMP);
-                }
-            } else {
-                if (currentDescription != null) {
-                    metaPixelTable.setValueAt(null, i, 0);
-                }
+    public void updateMPM(int row) {
+        MetaPixel currentMP = parseRow(row);
+        String currentDescription = (String)metaPixelTable.getModel().getValueAt(row,0);
+        if (currentMP != null) {
+            MetaPixelData currentMPData = currentMP.getMetaPixelData();
+            //metaPixelTable.setValueAt(currentMPData.getDescription(), row, 0);
+            mpm.setMetaPixel(row, currentMP);
+        } else {
+            if (currentDescription != null) {
+                metaPixelTable.setValueAt(null, row, 0);
             }
         }
         mpm.apply(workingDuckImage);
         mainDrawPanel.repaint();
+    }
+
+    public void updateMPM() {
+        for (int i = 0; i < metaPixelTable.getRowCount(); i++) {
+            updateMPM(i);
+        }
     }
 
     @Override
