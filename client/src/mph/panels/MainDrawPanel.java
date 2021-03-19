@@ -26,8 +26,8 @@ public class MainDrawPanel extends DrawPanel {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setCurrentView(View.ALL);
         try {
-            helperImage = ImageIO.read(new File("client/res/Helper.png"));
-            tongue = ImageIO.read(new File("client/res/Tongue.png"));
+            helperImage = ImageIO.read(new File("Helper.png"));
+            tongue = ImageIO.read(new File("Tongue.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
