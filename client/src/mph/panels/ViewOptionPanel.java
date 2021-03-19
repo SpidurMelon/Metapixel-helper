@@ -16,43 +16,43 @@ public class ViewOptionPanel extends OptionPanel {
         setLayout(new GridLayout(20, 1));
 
         JRadioButton all = new JRadioButton("Show All");
-        all.setBackground(DefaultColor.DARKER.getColor());
-        all.setForeground(Color.gray);
+        all.setBackground(DefaultColor.DARK.getColor());
+        all.setForeground(DefaultColor.GREYPLE.getColor());
         all.setActionCommand("Show All");
         all.addActionListener(this);
         all.setSelected(true);
 
         JRadioButton hat = new JRadioButton("Show Hat");
-        hat.setBackground(DefaultColor.DARKER.getColor());
-        hat.setForeground(Color.gray);
+        hat.setBackground(DefaultColor.DARK.getColor());
+        hat.setForeground(DefaultColor.GREYPLE.getColor());
         hat.setActionCommand("Show Hat");
         hat.addActionListener(this);
         hat.setSelected(true);
 
         JRadioButton quack = new JRadioButton("Show Quack");
-        quack.setBackground(DefaultColor.DARKER.getColor());
-        quack.setForeground(Color.gray);
+        quack.setBackground(DefaultColor.DARK.getColor());
+        quack.setForeground(DefaultColor.GREYPLE.getColor());
         quack.setActionCommand("Show Quack");
         quack.addActionListener(this);
         quack.setSelected(true);
 
         JRadioButton cape = new JRadioButton("Show Cape");
-        cape.setBackground(DefaultColor.DARKER.getColor());
-        cape.setForeground(Color.gray);
+        cape.setBackground(DefaultColor.DARK.getColor());
+        cape.setForeground(DefaultColor.GREYPLE.getColor());
         cape.setActionCommand("Show Cape");
         cape.addActionListener(this);
         cape.setSelected(true);
 
         JRadioButton rock = new JRadioButton("Show Rock");
-        rock.setBackground(DefaultColor.DARKER.getColor());
-        rock.setForeground(Color.gray);
+        rock.setBackground(DefaultColor.DARK.getColor());
+        rock.setForeground(DefaultColor.GREYPLE.getColor());
         rock.setActionCommand("Show Rock");
         rock.addActionListener(this);
         rock.setSelected(true);
 
         JRadioButton particles = new JRadioButton("Show Particles");
-        particles.setBackground(DefaultColor.DARKER.getColor());
-        particles.setForeground(Color.gray);
+        particles.setBackground(DefaultColor.DARK.getColor());
+        particles.setForeground(DefaultColor.GREYPLE.getColor());
         particles.setActionCommand("Show Particles");
         particles.addActionListener(this);
         particles.setSelected(true);
@@ -73,22 +73,22 @@ public class ViewOptionPanel extends OptionPanel {
         add(particles);
 
         JCheckBox image = new JCheckBox("Toggle Image");
-        image.setBackground(DefaultColor.DARKER.getColor());
-        image.setForeground(Color.gray);
+        image.setBackground(DefaultColor.DARK.getColor());
+        image.setForeground(DefaultColor.GREYPLE.getColor());
         image.setActionCommand("Image");
         image.addActionListener(this);
         image.setSelected(true);
 
         JCheckBox helper = new JCheckBox("Toggle Helper");
-        helper.setBackground(DefaultColor.DARKER.getColor());
-        helper.setForeground(Color.gray);
+        helper.setBackground(DefaultColor.DARK.getColor());
+        helper.setForeground(DefaultColor.GREYPLE.getColor());
         helper.setActionCommand("Helper");
         helper.addActionListener(this);
         helper.setSelected(false);
 
         JCheckBox tongue = new JCheckBox("Toggle Tongue");
-        tongue.setBackground(DefaultColor.DARKER.getColor());
-        tongue.setForeground(Color.gray);
+        tongue.setBackground(DefaultColor.DARK.getColor());
+        tongue.setForeground(DefaultColor.GREYPLE.getColor());
         tongue.setActionCommand("Tongue");
         tongue.addActionListener(this);
         tongue.setSelected(false);

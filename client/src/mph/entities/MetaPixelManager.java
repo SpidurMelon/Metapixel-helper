@@ -16,6 +16,11 @@ public class MetaPixelManager {
         metaPixelMap.put(y, mp);
     }
 
+    public MetaPixel getMetaPixel(int y) {
+        if (metaPixelMap.containsKey(y)) return metaPixelMap.get(y);
+        return new MetaPixel(0);
+    }
+
     public void removeMetaPixel(int y) {
         metaPixelMap.remove(y);
     }
@@ -24,9 +29,10 @@ public class MetaPixelManager {
         for (int y = 0; y < DuckImage.HEIGHT; y++) {
             if (metaPixelMap.containsKey(y)) {
                 MetaPixel mp = metaPixelMap.get(y);
-                Color mpColor = mp.toColor();
+                Color mpColor;
+                if (mp.isComplete()) mpColor = mp.toColor();
+                else mpColor = DefaultColor.TRANSPARENT.getColor();
                 image.setPixel(DuckImage.WIDTH - 1, y, mpColor);
-                System.out.println("x: " + (DuckImage.WIDTH - 1) + ", y:" + y + ", color:" + mpColor);
             }
         }
     }

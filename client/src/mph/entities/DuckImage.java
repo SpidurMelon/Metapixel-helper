@@ -1,5 +1,7 @@
 package mph.entities;
 
+import mph.util.DefaultColor;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,6 +23,9 @@ public class DuckImage {
         Graphics imageGraphics = image.getGraphics();
         imageGraphics.setColor(color);
         imageGraphics.drawRect(x, y, 0, 0);
+        if (color.getRGB() != 0x000000) {
+            System.out.println(color);
+        }
     }
 
     public BufferedImage getImage() {

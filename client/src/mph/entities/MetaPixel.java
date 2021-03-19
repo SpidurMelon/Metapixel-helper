@@ -1,7 +1,6 @@
 package mph.entities;
 
 import java.awt.*;
-import java.util.HashMap;
 
 public class MetaPixel {
     /** id=red, param1=green, param2=blue */
@@ -57,12 +56,14 @@ public class MetaPixel {
             case NFLOAT:
                 g = (int)((Integer.parseInt(this.param1)/(double)metaPixelData.getMax())*127)+128;
                 break;
-            case INT:
+            case NINT:
                 g = (Integer.parseInt(this.param1))+128;
                 break;
             case BOOL:
                 break;
             case SPECIAL:
+                g = Integer.parseInt(this.param1);
+                b = Integer.parseInt(this.param1);
                 break;
         }
         return new Color(r, g, b);
@@ -91,7 +92,7 @@ public class MetaPixel {
                 mp.setParam1(String.valueOf((int)((color.getGreen()-128)/128d)*mp.getMetaPixelData().getMax()));
                 mp.setParam2(String.valueOf(0));
                 break;
-            case INT:
+            case NINT:
                 mp.setParam1(String.valueOf(color.getGreen()-128));
                 mp.setParam2(String.valueOf(0));
                 break;
@@ -100,8 +101,19 @@ public class MetaPixel {
                 mp.setParam2(String.valueOf(0));
                 break;
             case SPECIAL:
+                mp.setParam1(String.valueOf(color.getGreen()));
+                mp.setParam2(String.valueOf(color.getBlue()));
                 break;
         }
         return mp;
+    }
+
+    public boolean isComplete() {
+        if (getMetaPixelData().hasMultipleParams()) {
+            return param1 != null && param2 != null;
+        } else {
+            return param1 != null;
+        }
+
     }
 }
