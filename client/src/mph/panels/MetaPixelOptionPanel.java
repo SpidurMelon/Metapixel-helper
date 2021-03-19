@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,7 +26,7 @@ import mph.entities.MetaPixelData;
 import mph.entities.MetaPixelManager;
 import mph.util.DefaultColor;
 
-public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionListener {
+public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionListener, KeyListener {
     private MetaPixelPropertiesPanel metaPixelPropertiesPanel;
     private MainDrawPanel mainDrawPanel;
     private DuckImage workingDuckImage;
@@ -53,6 +55,7 @@ public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionLi
         metaPixelTable.setBackground(DefaultColor.DARK.getColor());
         metaPixelTable.setForeground(DefaultColor.GREYPLE.getColor());
         metaPixelTable.setGridColor(DefaultColor.BLACK.getColor());
+        metaPixelTable.addKeyListener(this);
         metaPixelTable.setFillsViewportHeight(true);
         metaPixelTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         metaPixelTable.getSelectionModel().setSelectionInterval(0, 0);
@@ -142,5 +145,24 @@ public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionLi
     @Override
     public void valueChanged(ListSelectionEvent e) {
         metaPixelPropertiesPanel.setSelectedMetaPixel(getCurrentlySelected());
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+            setRow(getCurrentlySelectedRow(), new MetaPixel(0));
+            metaPixelPropertiesPanel.setSelectedMetaPixel(new MetaPixel(0));
+            updateMPM(getCurrentlySelectedRow());
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

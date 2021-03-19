@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class MetaPixelPropertiesPanel extends OptionPanel {
     private JLabel param1Label, param2Label;
