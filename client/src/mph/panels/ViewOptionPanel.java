@@ -93,9 +93,17 @@ public class ViewOptionPanel extends OptionPanel {
         tongue.addActionListener(this);
         tongue.setSelected(false);
 
+        JCheckBox indicators = new JCheckBox("Toggle Indicators");
+        indicators.setBackground(DefaultColor.DARK.getColor());
+        indicators.setForeground(DefaultColor.GREYPLE.getColor());
+        indicators.setActionCommand("Indicators");
+        indicators.addActionListener(this);
+        indicators.setSelected(false);
+
         add(image);
         add(tongue);
         add(helper);
+        add(indicators);
     }
 
     @Override
@@ -125,6 +133,9 @@ public class ViewOptionPanel extends OptionPanel {
         }
         if (action.startsWith("Tongue")) {
             mainDrawPanel.toggleTongue();
+        }
+        if (action.startsWith("Indicators")) {
+            mainDrawPanel.toggleIndicators();
         }
     }
 }

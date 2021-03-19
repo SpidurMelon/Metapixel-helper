@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -127,6 +128,10 @@ public class MetaPixelOptionPanel extends OptionPanel implements ListSelectionLi
             MetaPixelData currentMPData = currentMP.getMetaPixelData();
             //metaPixelTable.setValueAt(currentMPData.getDescription(), row, 0);
             mpm.setMetaPixel(row, currentMP);
+            if (currentMPData.getId() == MetaPixelData.PARTICLE_OFFSET.getId()) {
+                mainDrawPanel.emitter = new Point(Math.min(DuckImage.HATSIZE-1, DuckImage.HATSIZE/2+Integer.parseInt(currentMP.getParam1())),
+                                                    Math.min(DuckImage.HATSIZE-1,DuckImage.HATSIZE/2+Integer.parseInt(currentMP.getParam2())));
+            }
         } else {
             if (currentDescription != null) {
                 metaPixelTable.setValueAt(null, row, 0);

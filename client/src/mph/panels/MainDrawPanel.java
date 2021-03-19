@@ -17,9 +17,10 @@ public class MainDrawPanel extends DrawPanel {
     private DuckImage workingDuckImage;
     private View currentView;
     private AffineTransform viewTransform = new AffineTransform();
-    private boolean imageActive = true, helperActive = false, tongueActive = false;
+    private boolean imageActive = true, helperActive = false, tongueActive = false, indicatorsActive = false;
     private BufferedImage helperImage, tongue;
     private static final int WIDTH = 600, HEIGHT = 600;
+    public Point emitter = new Point();
 
     public MainDrawPanel(DuckImage workingDuckImage) {
         this.workingDuckImage = workingDuckImage;
@@ -40,6 +41,9 @@ public class MainDrawPanel extends DrawPanel {
         if (helperActive) g2.drawImage(helperImage, viewTransform, null);
         if (tongueActive) g2.drawImage(tongue, viewTransform, null);
         if (imageActive) g2.drawImage(workingDuckImage.getImage(), viewTransform, null);
+        g2.transform(viewTransform);
+        g2.setColor(Color.red);
+        if (indicatorsActive) g2.fillRect(DuckImage.HATSIZE+emitter.x, emitter.y, 1, 1);
     }
 
     public void setCurrentView(View currentView) {
@@ -85,6 +89,11 @@ public class MainDrawPanel extends DrawPanel {
 
     public void toggleTongue() {
         tongueActive = !tongueActive;
+        repaint();
+    }
+
+    public void toggleIndicators() {
+        indicatorsActive = !indicatorsActive;
         repaint();
     }
 
