@@ -22,7 +22,7 @@ public enum MetaPixelData {
     PARTICLE_DEFAULT(31,"Sets default behaviour", "<html>Not required</html>", "<html> 0:None <br> 1:Spit <br> 2:Burst <br> 3:Halo <br> 4:Exclamation </html>", MetaPixelType.SPECIAL, 4),
     PARTICLE_SHAPE(32,"Particle emitter shape", "<html> Shape: <br> 0:Point <br> 1:Circle <br> 2:Box </html>", "<html> Distribution: <br> 0:Random (on edge) <br> 1:Random (in area) <br> 2:Uniform (on edge) </html>", MetaPixelType.SPECIAL, 4),
     PARTICLE_SHAPE_SIZE(33,"Particle emitter shape size", "X size", "Y size", MetaPixelType.VEC, 24),
-    PARTICLE_COUNT(34,"Particle count per emit", "Count", "", MetaPixelType.NINT, 8),
+    PARTICLE_COUNT(34,"Particle count per emit", "Count", "", MetaPixelType.INT, 8),
     PARTICLE_LIFESPAN(35,"Particle lifespan", "Lifespan in seconds", "", MetaPixelType.FLOAT, 2),
     PARTICLE_VELOCITY(36,"Particle initial velocity", "X start velocity", "Y start velocity", MetaPixelType.NNVEC, 2),
     PARTICLE_GRAVITY(37,"Particle gravity", "Gravity in x direction", "Gravity in y direction", MetaPixelType.NNVEC, 2),
@@ -47,7 +47,7 @@ public enum MetaPixelData {
     ;
 
     public enum MetaPixelType {
-        VEC, NVEC, NNVEC, FLOAT, NFLOAT, NINT, BOOL, SPECIAL, UNDEFINED;
+        VEC, NVEC, NNVEC, FLOAT, NFLOAT, INT, BOOL, SPECIAL, UNDEFINED;
     }
 
     private int id, max;
@@ -90,7 +90,6 @@ public enum MetaPixelData {
         add(MetaPixelType.VEC);
         add(MetaPixelType.NNVEC);
         add(MetaPixelType.NFLOAT);
-        add(MetaPixelType.NINT);
     }};
     private static ArrayList<MetaPixelType> multiParameter = new ArrayList<MetaPixelType>() {{
         add(MetaPixelType.VEC);

@@ -70,8 +70,8 @@ public class MetaPixel {
                     g = (int)((Float.parseFloat(this.param1)/(double)metaPixelData.getMax())*127)+128;
                 }
                 break;
-            case NINT:
-                g = Integer.parseInt(this.param1)+128;
+            case INT:
+                g = Integer.parseInt(this.param1);
                 break;
             case BOOL:
                 break;
@@ -120,8 +120,8 @@ public class MetaPixel {
                 }
                 mp.setParam2(String.valueOf(0));
                 break;
-            case NINT:
-                mp.setParam1(String.valueOf(color.getGreen()-128));
+            case INT:
+                mp.setParam1(String.valueOf(color.getGreen()));
                 mp.setParam2(String.valueOf(0));
                 break;
             case BOOL:
